@@ -1,0 +1,17 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * enqueue_scripts` method in `Ns_Connection_Blocker_Admin`.
+ *
+ * @link       https://nias.ir
+ * @since      1.0.0
+ *
+ * @package    Ns_Connection_Blocker
+ * @subpackage Ns_Connection_Blocker/admin/css
+ */
+
+/* Styles for the toggle switch are included in the partial HTML for simplicity,
+   but can be moved here if preferred. */
+
+.ns-connections-table th, .ns-connections-table td {
+    vertical-align: middle;
+}
