@@ -82,8 +82,8 @@ class Ns_Connection_Blocker_Admin {
      */
     public function add_plugin_admin_menu() {
         $hook_suffix = add_options_page(
-            __( 'NS Connection Blocker Settings', 'ns-connection-blocker' ), // Page title
-            __( 'NS Connection Blocker', 'ns-connection-blocker' ),          // Menu title
+            __( 'تنظیمات WPmeli', 'ns-connection-blocker' ), // Page title
+            __( 'WPmeli نت ملی', 'ns-connection-blocker' ),          // Menu title
             'manage_options',                                                 // Capability
             $this->plugin_name,                                               // Menu slug
             array( $this, 'display_plugin_setup_page' )                      // Callback function
@@ -116,7 +116,7 @@ class Ns_Connection_Blocker_Admin {
 
         add_settings_section(
             $this->plugin_name . '_general_section', // ID
-            __( 'Connection Blocking Rules', 'ns-connection-blocker' ), // Title
+            __( 'قوانین مسدود سازی اتصالات', 'ns-connection-blocker' ), // Title
             array( $this, 'general_section_callback' ), // Callback
             $this->plugin_name // Page
         );
@@ -150,7 +150,7 @@ class Ns_Connection_Blocker_Admin {
         // It's important that this AJAX call itself (to admin-ajax.php) isn't logged as an external connection.
         // log_http_requests should filter out requests to the site's own admin_url().
 
-        wp_send_json_success( array('message' => 'Ping attempt made to ' . $target_host) ); // Response doesn't really matter for client
+        wp_send_json_success( array('message' => sprintf(__( 'Ping attempt made to %s', 'ns-connection-blocker' ), $target_host) ) );
     }
 
 
@@ -172,8 +172,8 @@ class Ns_Connection_Blocker_Admin {
 
         ob_start();
         if ( ! empty( $active_connections ) || ! empty( $blocked_hosts_settings ) ) {
-            echo '<h2>' . __( 'Detected & Configured Connections', 'ns-connection-blocker' ) . '</h2>';
-            echo '<p>' . __( 'Toggle the switch to "On" to block a connection. Click "Save Changes" to apply.', 'ns-connection-blocker' ) . '</p>';
+            echo '<h2>' . __( 'اتصالات شناسایی شده و پیکربندی شده', 'ns-connection-blocker' ) . '</h2>';
+            echo '<p>' . __( 'برای مسدود کردن یک اتصال، کلید مربوطه را فعال کرده و سپس روی "ذخیره تغییرات" کلیک کنید.', 'ns-connection-blocker' ) . '</p>';
             echo '<table class="form-table ns-connections-table"><tbody>';
 
             $all_display_hosts = array();
@@ -183,7 +183,7 @@ class Ns_Connection_Blocker_Admin {
             sort($all_display_hosts);
 
             if ( empty( $all_display_hosts ) ) {
-                 echo '<tr><td colspan="2">' . __( 'No new external connections detected during the check. Previously configured hosts are shown if any.', 'ns-connection-blocker' ) . '</td></tr>';
+                 echo '<tr><td colspan="2">' . __( 'هیچ اتصال خارجی جدیدی در طول بررسی شناسایی نشد. میزبان‌هایی که قبلاً پیکربندی شده‌اند (در صورت وجود) نمایش داده می‌شوند.', 'ns-connection-blocker' ) . '</td></tr>';
             } else {
                 foreach ( $all_display_hosts as $host ) {
                     if (empty($host)) continue;
@@ -210,7 +210,7 @@ class Ns_Connection_Blocker_Admin {
             }
             echo '</tbody></table>';
         } else {
-             echo '<p id="ns_no_connections_message">' . __( 'No external connections detected during the check. If you have plugins making external calls, they should appear here after clicking "Check Connections".', 'ns-connection-blocker' ) . '</p>';
+             echo '<p id="ns_no_connections_message">' . __( 'هیچ اتصال خارجی در طول بررسی شناسایی نشد. اگر افزونه‌هایی دارید که تماس‌های خارجی برقرار می‌کنند، پس از کلیک روی "بررسی اتصالات" باید در اینجا ظاهر شوند.', 'ns-connection-blocker' ) . '</p>';
         }
         $html = ob_get_clean();
 
@@ -222,6 +222,19 @@ class Ns_Connection_Blocker_Admin {
 
 
         wp_send_json_success( array( 'html' => $html ) );
+    }
+
+    /**
+     * Add settings link to the plugins page.
+     *
+     * @since 1.0.1
+     * @param array $links Array of existing action links.
+     * @return array Array of modified action links.
+     */
+    public function add_settings_link_to_plugins_page( $links ) {
+        $settings_link = '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_name ) . '">' . __( 'تنظیمات', 'ns-connection-blocker' ) . '</a>';
+        array_unshift( $links, $settings_link ); // Add to the beginning of the links array
+        return $links;
     }
 
 
@@ -251,8 +264,8 @@ class Ns_Connection_Blocker_Admin {
      * @since 1.0.0
      */
     public function general_section_callback() {
-        echo '<p>' . __( 'Toggle the switch to "On" for any connection you wish to block.', 'ns-connection-blocker' ) . '</p>';
-        echo '<p><button type="button" id="ns_check_connections_button" class="button button-secondary">' . __( 'Check Connections', 'ns-connection-blocker' ) . '</button></p>';
+        echo '<p>' . __( 'کلید مربوط به هر اتصال را برای مسدود کردن آن فعال کنید.', 'ns-connection-blocker' ) . '</p>';
+        echo '<p><button type="button" id="ns_check_connections_button" class="button button-secondary">' . __( 'بررسی اتصالات', 'ns-connection-blocker' ) . '</button></p>';
         echo '<div id="ns_connection_list_container"></div>'; // Container for AJAX loaded connections
     }
 
@@ -352,8 +365,8 @@ class Ns_Connection_Blocker_Admin {
             array(
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
                 'nonce'    => wp_create_nonce( 'ns_check_connections_nonce' ),
-                'checking_message' => __('Checking connections, please wait...', 'ns-connection-blocker'),
-                'error_message' => __('An error occurred.', 'ns-connection-blocker'),
+                'checking_message' => __('در حال بررسی اتصالات، لطفاً منتظر بمانید...', 'ns-connection-blocker'),
+                'error_message' => __('خطایی رخ داد.', 'ns-connection-blocker'),
             )
         );
     }

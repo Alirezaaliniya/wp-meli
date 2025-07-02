@@ -160,6 +160,10 @@ class Ns_Connection_Blocker {
         // Filter to block requests
         $this->loader->add_filter( 'pre_http_request', $plugin_admin, 'filter_http_requests', 100, 3 ); // High priority
 
+        // Add settings link to plugin page
+        $plugin_basename = plugin_basename( NS_CONNECTION_BLOCKER_PLUGIN_DIR . $this->plugin_name . '.php' );
+        $this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugin_admin, 'add_settings_link_to_plugins_page' );
+
     }
 
     /**

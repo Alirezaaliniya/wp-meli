@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: NS Connection Blocker
+ * Plugin Name: WPmeli | وردپرس در زمان نت ملی
  * Plugin URI: https://nias.ir
- * Description: Recognizes all outgoing connections and allows blocking them individually.
- * Version: 1.0.0
+ * Description: اتصال وردپرس در زمان قطع اینترنت، مدیریت و شناسایی اتصالات خارجی و مسدود سازی آن‌ها
+ * Version: 1.0.1
  * Author: Nias.ir Alireza Aliniya
  * Author URI: https://nias.ir
  * License: GPL v2 or later

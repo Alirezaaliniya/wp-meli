@@ -42,8 +42,8 @@ $logged_requests_option_name = $plugin_name_slug . '_logged_requests_transient';
             $blocked_hosts_settings = get_option( $settings_option_name, array() );
 
             if ( ! empty( $active_connections ) || ! empty( $blocked_hosts_settings ) ) {
-                echo '<h2>' . __( 'Detected & Configured Connections', 'ns-connection-blocker' ) . '</h2>';
-                echo '<p>' . __( 'Toggle the switch to "On" to block a connection. Click "Save Changes" to apply.', 'ns-connection-blocker' ) . '</p>';
+                echo '<h2>' . __( 'اتصالات شناسایی شده و پیکربندی شده', 'ns-connection-blocker' ) . '</h2>';
+                echo '<p>' . __( 'برای مسدود کردن یک اتصال، کلید مربوطه را فعال کرده و سپس روی "ذخیره تغییرات" کلیک کنید.', 'ns-connection-blocker' ) . '</p>';
                 echo '<table class="form-table ns-connections-table"><tbody>';
 
                 // Merge active connections and saved settings to display all relevant hosts
@@ -55,7 +55,7 @@ $logged_requests_option_name = $plugin_name_slug . '_logged_requests_transient';
 
 
                 if ( empty( $all_display_hosts ) ) {
-                     echo '<tr><td colspan="2">' . __( 'No connections detected or configured yet. Click "Check Connections" to scan for outgoing requests.', 'ns-connection-blocker' ) . '</td></tr>';
+                     echo '<tr><td colspan="2">' . __( 'هنوز هیچ اتصالی شناسایی یا پیکربندی نشده است. برای اسکن درخواست‌های خروجی، روی "بررسی اتصالات" کلیک کنید.', 'ns-connection-blocker' ) . '</td></tr>';
                 } else {
                     foreach ( $all_display_hosts as $host ) {
                         if (empty($host)) continue; // Skip empty host entries
@@ -82,14 +82,14 @@ $logged_requests_option_name = $plugin_name_slug . '_logged_requests_transient';
                 }
                 echo '</tbody></table>';
             } else {
-                 echo '<p id="ns_no_connections_message">' . __( 'Click "Check Connections" to scan for outgoing requests. Results will appear here.', 'ns-connection-blocker' ) . '</p>';
+                 echo '<p id="ns_no_connections_message">' . __( 'برای اسکن درخواست‌های خروجی، روی "بررسی اتصالات" کلیک کنید. نتایج در اینجا ظاهر خواهند شد.', 'ns-connection-blocker' ) . '</p>';
             }
             ?>
         </div>
-        <?php submit_button( __( 'Save Changes', 'ns-connection-blocker' ) ); ?>
+        <?php submit_button( __( 'ذخیره تغییرات', 'ns-connection-blocker' ) ); ?>
     </form>
     <p>
-        <em><?php _e( '<strong>Note:</strong> The "Check Connections" button will trigger a series of test requests to various common external services (like wordpress.org) to help identify potential outgoing connections from your site. Previously logged connections are stored for a short period.', 'ns-connection-blocker' ); ?></em>
+        <em><?php _e( '<strong>توجه:</strong> دکمه "بررسی اتصالات" مجموعه‌ای از درخواست‌های آزمایشی را به سرویس‌های خارجی رایج (مانند wordpress.org) ارسال می‌کند تا به شناسایی اتصالات خروجی بالقوه از سایت شما کمک کند. اتصالات قبلاً ثبت شده برای مدت کوتاهی ذخیره می‌شوند.', 'ns-connection-blocker' ); ?></em>
     </p>
 </div>
 
